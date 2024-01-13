@@ -1,4 +1,0 @@
-- take user input for alarm
-- check that alarm against the current laptop/machines time
-- if set_alarm == current_time then
-- return a message if alarm arrives
