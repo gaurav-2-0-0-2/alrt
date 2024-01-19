@@ -1,4 +1,6 @@
-<h1><p style="text-align:center">alrt</p></h1>
+alrt
+-----
+-----
 <p style="text-align:center">This is a simple terminal application to set alarm and it notifies you</p>
 
 <p style="text-align:center">You can contribute if you want to</p>
