@@ -23,7 +23,7 @@ def set_alarm():
             file.write(set_alarm_value)
 
 
-        print("Your alarm: ", set_alarm_value)
+        print("Your alarm is set to : ", set_alarm_value)
         return set_alarm_value 
     except ValueError:
         print("Invalid time format. Please enter time in HH:MM:SS format.")
