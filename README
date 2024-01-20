@@ -7,4 +7,7 @@ You can contribute if you want to
 
 You might need to install schedule, to do that run:  pip3 install schedule
 
+set alias in .bashrc
+alias alrt="path/to/alrt.py"
+
 after cloning the repo run: alrt 

@@ -62,7 +62,6 @@ def main():
 
 
 
-######### more efficient approach #############
 ######### this approach uses scheduling #############
 
     schedule.every().day.at(alarm_time).do(notify)
@@ -72,7 +71,6 @@ def main():
         schedule.run_pending()
         time.sleep(1)
 
-######### more efficient approach #############
 
 
 
