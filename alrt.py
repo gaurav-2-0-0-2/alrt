@@ -8,19 +8,22 @@ import subprocess
 import schedule
 
 ALARM_FILE = 'alarm_file.txt'
+
+
+
+
 # Function to set alarm
 def set_alarm():
     
-
     # Take user input for alarm
-    user_input = input("Set your alarm (HH:MM): ")
+    user_input = input("Set your alarm (HH:MM:SS): ")
 
     try:
-        time_obj = datetime.datetime.strptime(user_input, "%H:%M")
-        set_alarm_value = time_obj.time().strftime("%H:%M")
+        time_obj = datetime.datetime.strptime(user_input, "%H:%M:%S")
+        set_alarm_value = time_obj.time().strftime("%H:%M:%S")
 
-        with open(ALARM_FILE, "w") as file:
-            file.write(set_alarm_value)
+        with open(ALARM_FILE, "a") as file:
+            file.write(set_alarm_value + '\n') # appending the new alarm instead of overwriting it
 
 
         print("Your alarm is set to : ", set_alarm_value)
@@ -29,18 +32,26 @@ def set_alarm():
         print("Invalid time format. Please enter time in HH:MM:SS format.")
 
 # Function that reads alarm_file.txt for stored alarm
-def read_alarm():
-
-    # reading the alarm from 'alarm_file.txt'
-    try:
-        with open(ALARM_FILE, "r") as file:
-            alarm_read = file.read().strip()
-        return alarm_read
-    except FileNotFoundError:
-       return None
+#def read_alarm():
+#
+#    # reading the alarm from 'alarm_file.txt'
+#    try:
+#        with open(ALARM_FILE, "r") as file:
+#            alarm_read = file.read().strip()
+#        return alarm_read
+#    except FileNotFoundError:
+#       return None
        
 def notify():
-        subprocess.run(["/usr/bin/notify-send", "--icon=error", "This is your alarm"])
+        subprocess.run(["/usr/bin/notify-send", "--icon=error", "This is your alarm\n You should start doing your task instead of getting distracted by things around you"])
+
+#def schedule_alarm(alarm_time):
+#    alarm_command = f'/usr/bin/notify-send --icon=error "This is your alarm"'
+#    at_command = f'echo "{alarm_command}" | at {alarm_time}'
+#    os.system(at_command)
+
+
+
 
 
 def main():
@@ -55,27 +66,33 @@ def main():
     print("Hello from alrt!")
 
     set_alarm() 
-    alarm_time = read_alarm()
+
+    with open(ALARM_FILE, 'r') as file:
+        alarm_times = file.readlines()
+        for alarm_time in alarm_times:
+            alarm_time = alarm_time.strip()
+            #schedule_alarm(alarm_time)
+            schedule_time = datetime.datetime.strptime(alarm_time, "%H:%M:%S").time()
+            schedule.every().day.at(alarm_time).do(notify)
 
 
-
-
-
+    #alarm_time = read_alarm()
 
 ######### this approach uses scheduling #############
-
-    schedule.every().day.at(alarm_time).do(notify)
 
 
     while True:
         schedule.run_pending()
         time.sleep(1)
 
+######### this approach uses scheduling #############
+
+    # Run the scheduled tasks (notify function)
+    # schedule.run_pending()
 
 
 
 ######### not so efficient approach #############
-######### this approach uses a loop until the condition reaches which wastes resources #############
     #while True:
     #     # extracting current time of your laptop
     #     current_time = datetime.datetime.now().strftime("%H:%M")
@@ -89,6 +106,7 @@ def main():
     #     else:
     #         print("wait for the alarm")
     #         break
+######### not so efficient approach #############
             
          
          
